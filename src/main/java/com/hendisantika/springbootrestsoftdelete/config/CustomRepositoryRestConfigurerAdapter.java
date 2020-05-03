@@ -9,7 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.metamodel.ManagedType;
+import javax.persistence.metamodel.Metamodel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,5 +55,17 @@ public class CustomRepositoryRestConfigurerAdapter extends RepositoryRestConfigu
 
         // Return updated entities in the response
         config.setReturnBodyOnUpdate(true);
+    }
+
+    // Find all classes that are annotated with @Entity
+    private List<Class<?>> getAllManagedEntityTypes(EntityManagerFactory entityManagerFactory) {
+        List<Class<?>> entityClasses = new ArrayList<>();
+        Metamodel metamodel = entityManagerFactory.getMetamodel();
+
+        for (ManagedType<?> managedType : metamodel.getManagedTypes())
+            if (managedType.getJavaType().isAnnotationPresent(Entity.class))
+                entityClasses.add(managedType.getJavaType());
+
+        return entityClasses;
     }
 }
