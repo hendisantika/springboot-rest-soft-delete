@@ -1,6 +1,7 @@
 package com.hendisantika.springbootrestsoftdelete.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hendisantika.springbootrestsoftdelete.entity.pk.RoleUserPK;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
